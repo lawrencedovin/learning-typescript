@@ -1,5 +1,7 @@
 let button = document.querySelector("button")!;
 
-button.addEventListener("click", () => {
-    console.log("hello");
-})
+function clickHandler(message: string) {
+    console.log('Clicked! ' + message);
+}
+
+button.addEventListener("click", () => clickHandler('You clicked me.'));

@@ -1,6 +1,7 @@
 "use strict";
 let button = document.querySelector("button");
-button.addEventListener("click", () => {
-    console.log("hello");
-});
+function clickHandler(message) {
+    console.log(`Clicked! ${message}`);
+}
+button.addEventListener("click", () => clickHandler('You clicked me.'));
 //# sourceMappingURL=app.js.map
