@@ -22,3 +22,13 @@ const person = {
 };
 
 const copiedPerson = {...person};
+
+/**Rest Operator*/
+const add = (...numbers: number[]) => {
+    let result = 0;
+    // reduce method works in a way that it performs 
+    // an operation on every element in an array. Returns a result 
+    // that adds all the elements togethers.
+    // Iterates over each element performing an operation to reduce it to a single value.
+    return numbers.reduce((currentResult, currentValue) => currentResult + currentValue, 0);
+};
