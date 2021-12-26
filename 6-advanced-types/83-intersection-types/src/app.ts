@@ -1,51 +1,48 @@
-class Department {
-    protected employees: string [] = [];
+type Admin = {
+    name: string;
+    privileges: string[];
+};
 
-    constructor(private readonly id: string, public name: string) {}
+type Employee = {
+    name: string;
+    startDate: Date;
+};
 
-    describe(this: Department) {
-        console.log(`Department: ${this.name}`);
-    }
+type ElevatedEmployee = Admin & Employee;
 
-    addEmployee(employee: string) {
-        this.employees.push(employee);
-    }
+const e1: ElevatedEmployee = {
+    name: 'Max',
+    privileges: ['create-server'],
+    startDate: new Date()
+}
 
-    printEmployeeDetails() {
-        console.log(this.employees.length);
-        console.log(this.employees);
+// Similar to Interface Inheritance
+
+interface Named {
+    name: string;
+}
+
+interface AdminInterface extends Named {
+    privileges: string[];
+}
+
+interface EmployeeInterface extends Named {
+    startDate: Date;
+}
+
+class ElevatedEmployees implements AdminInterface, EmployeeInterface {
+    name: string;
+    privileges: string[];
+    startDate = new Date();
+    
+    constructor(name: string, privileges: string[]) {
+        this.name = name;
+        this.privileges = privileges;
     }
 }
 
-class AccountingDepartment extends Department {
-    private lastReport: string;
+const el = new ElevatedEmployees('Max', ['create-server']);
 
-    get mostRecentReport() {
-        if(this.lastReport) return this.lastReport;
-        throw new Error('No report found.');
-    }
-
-    set mostRecentReport(report: string) {
-        if(!report) throw new Error('Please pass in a valid report.');
-        this.addReport(report);
-    }
-
-    constructor(id: string, private reports: string[]) {
-        super(id, 'Accounting');
-        this.lastReport = reports[0];
-    }
-
-    addEmployee(employee: string) {
-        return employee === 'Max' ? null : this.employees.push(employee);
-    }
-
-    addReport(text: string) {
-        this.reports.push(text);
-        this.lastReport = text;
-    }
-}
-
-
-const accounting = new AccountingDepartment('0001', ['First Report', 'Second Report']);
-accounting.addReport('Third Report');
-console.log(accounting.mostRecentReport);
+type Combinable = string | number;
+type Numeric = number | boolean;
+type Universal = Combinable & Numeric;
