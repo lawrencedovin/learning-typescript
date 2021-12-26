@@ -1,11 +1,9 @@
-interface ErrorContainer {
-    // If property doesn't exist like email error but not a username error then omit username.
-    // Gives flexibility for not knowing how many properties and what names ahead of time.
-    // { email: 'Not a valid email.', username: 'Must at least 5 characters long.' }
-    [prop: string]: string;
+// Restricting the types of T, U
+// <T extends object, U extends object>: T type can be any object any structure, but needs to be an object.
+
+function merge<T extends object, U extends object>(objA: T, objB: U) {
+    return Object.assign(objA, objB);
 }
 
-const errorBag: ErrorContainer = {
-    email: 'Not a valid email.',
-    username: 'Must start with a capital character!'
-};
+const mergedObject = merge({name: 'Lawrence'}, {age: 28});
+console.log(mergedObject.age);
