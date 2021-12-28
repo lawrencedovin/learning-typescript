@@ -1,28 +1,21 @@
-const log = (phrase: string) => console.log(phrase);
-
-interface Bird {
-    type: 'bird';
-    flyingSpeed: number;
+// Decorators need arguments
+// Gets a function as an argument.
+function Logger(constructor: Function) {
+    console.log('Logging...');
+    console.log(constructor);
 }
 
-interface Horse {
-    type: 'horse';
-    runningSpeed: number;
-}
-
-type Animal = Bird | Horse;
-
-function moveAnimal(animal: Animal) {
-    let speed;
-    switch(animal.type) {
-        case 'bird':
-            speed = animal.flyingSpeed;
-            break;
-        case 'horse':
-            speed = animal.runningSpeed;
-            break;
+// @Logger points to a function doesn't execute it.
+// Decorators execute when your class is Defined not when it is Instantiated.
+// Logs the whole class because classes are just syntatic 
+// sugar over a constructor function.
+@Logger
+class Person {
+    name = 'Max';
+    constructor() {
+        console.log('Creating person object...');
     }
-    log(`Moving at speed: ${speed}/hr`);
 }
 
-moveAnimal({type: 'bird', flyingSpeed: 10});
+const max = new Person();
+console.log(max);

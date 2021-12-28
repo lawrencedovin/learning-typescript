@@ -1,41 +1,29 @@
 "use strict";
-class Department {
-    constructor(id, name) {
-        this.id = id;
-        this.name = name;
-        this.employees = [];
-    }
-    describe() {
-        console.log(`Department: ${this.name}`);
-    }
-    addEmployee(employee) {
-        this.employees.push(employee);
-    }
-    printEmployeeDetails() {
-        console.log(this.employees.length);
-        console.log(this.employees);
-    }
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+// Decorators need arguments
+// Gets a function as an argument.
+function Logger(constructor) {
+    console.log('Logging...');
+    console.log(constructor);
 }
-class AccountingDepartment extends Department {
-    constructor(id, reports) {
-        super(id, 'Accounting');
-        this.reports = reports;
-        this.lastReport = reports[0];
+// @Logger points to a function doesn't execute it.
+// Decorators execute when your class is Defined not when it is Instantiated.
+// Logs the whole class because classes are just syntatic 
+// sugar over a constructor function.
+let Person = class Person {
+    constructor() {
+        this.name = 'Max';
+        console.log('Creating person object...');
     }
-    get mostRecentReport() {
-        if (this.lastReport)
-            return this.lastReport;
-        throw new Error('No report found.');
-    }
-    addEmployee(employee) {
-        return employee === 'Max' ? null : this.employees.push(employee);
-    }
-    addReport(text) {
-        this.reports.push(text);
-        this.lastReport = text;
-    }
-}
-const accounting = new AccountingDepartment('0001', ['First Report', 'Second Report']);
-accounting.addReport('Third Report');
-console.log(accounting.mostRecentReport);
+};
+Person = __decorate([
+    Logger
+], Person);
+const max = new Person();
+console.log(max);
 //# sourceMappingURL=app.js.map
