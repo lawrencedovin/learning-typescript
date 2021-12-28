@@ -1,29 +1,28 @@
-// Makes the class generic which can hold strings, numbers, arrays, object.
-type primitive = string | number | boolean;
-class DataStorage<T extends primitive> {
-    private data: T[] = [];
-
-    addItem(item: T) {
-        this.data.push(item);
-    }
-
-    removeItem() {
-        this.data.pop();
-    }
-
-    getItems() {
-        return [...this.data];
+function Logger(log: string) {
+    console.log('Logger Factory');
+    return (constructor: Function) => {
+        console.log(log);
+        console.log(constructor);
     }
 }
 
-const textStorage = new DataStorage<string>();
-textStorage.addItem('Pizza');
+function WithTemplate(template: string, hookId: string) {
+    console.log('Template Factory');
+    return (constructor: any) => {
+        const hookElement = document.querySelector(`#${hookId}`);
+        const person = new constructor();
+        if(hookElement) {
+            hookElement.innerHTML = template;
+            hookElement.querySelector('h1')!.textContent = person.name;
+        }
+    }
+}
 
-const numberStorage = new DataStorage<number>();
-numberStorage.addItem(312);
-
-// const arrayStringStorage = new DataStorage<Array<string>>();
-// arrayStringStorage.addItem(['hi', 'bye', '123']);
-
-// const objectStorage = new DataStorage<object>();
-// objectStorage.addItem({name: 'Lawrence', age: 28});
+@Logger('Logger')
+@WithTemplate('<h1>My Person Object</h1>', 'app')
+class Person {
+    name = 'Max';
+    constructor() {
+        console.log('Creating person object...');
+    }
+}
