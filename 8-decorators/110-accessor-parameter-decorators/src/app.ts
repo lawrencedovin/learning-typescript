@@ -1,9 +1,54 @@
-// Gets an object along with a passed in key.
-// Returns the value of that key in that object.
-// First parameter should be any kind of object.
-// Second parameter is any kind of key that in that object.
-function extractAndConvert<T extends object, U extends keyof T>(obj: T, key: U) {
-    return obj[key];
+function PropertyDecorator(target: any, propertyName: string | Symbol) {
+    console.log('Property decorator!');
+    console.log(target, propertyName);
 }
 
-extractAndConvert({name: 'Lawrence'}, 'name');
+function AccessorDecorator(target: any, name: string | Symbol, descriptor: PropertyDescriptor) {
+    console.log('Accessor decorator!');
+    console.log(target);
+    console.log(name);
+    console.log(descriptor);
+}
+
+function MethodDecorator(target: any, name: string | Symbol, descriptor: PropertyDescriptor) {
+    console.log('Method decorator!');
+    console.log(target);
+    console.log(name);
+    console.log(descriptor);
+}
+
+// position is the index of the parameter starting at 0
+function ParameterDecorator(target: any, name: string | Symbol, position: number) {    
+    console.log('Parameter decorator!');
+    console.log(target);
+    console.log(name);
+    console.log(position);
+}
+
+class Product {
+    @PropertyDecorator
+    title: string;
+    private _price: number;
+
+    constructor(title: string, price: number) {
+        this.title = title;
+        this._price = price;
+    }
+
+    // target: constructor
+    // name of the setter: price
+    // descriptor: describes the setter
+    @AccessorDecorator
+    set price(value: number) {
+        if(value > 0) this._price = value;
+        else throw new Error('Invalid Price - should be positive number.');
+    }
+
+    // target: constructor
+    // name of method: getPriceWithTax
+    // descriptor: describes the method
+    @MethodDecorator
+    getPriceWithTax(@ParameterDecorator tax: number) {
+        return this._price * (1 + tax);
+    }
+}
