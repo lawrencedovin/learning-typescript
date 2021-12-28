@@ -1,10 +1,26 @@
-// A function that merges 2 Objects and returns a Merged Object.
-// objA is any type but different type from objB.
-// Returns the Intersection of them.
-function merge<T, U>(objA: T, objB: U) {
-    return Object.assign(objA, objB);
+function Autobind(_: any, _2: string, descriptor: PropertyDescriptor) {
+    const originalMethod = descriptor.value;
+    const adjustedDescriptor: PropertyDescriptor = {
+        configurable: true,
+        enumerable: false,
+        get() {
+            // 'this' refers to anything that triggers the getter method.
+            const boundFunction = originalMethod.bind(this);
+            return boundFunction;
+        }
+    };
+    return adjustedDescriptor;
 }
 
-const mergedObj = merge({name: 'Lawrence'}, {age: 28});
+class Printer {
+    message = 'This works!';
 
-console.log(mergedObj.name);
+    @Autobind
+    showMessage() {
+        console.log(this.message);
+    }
+}
+
+const printer = new Printer();
+const button = document.querySelector('button')!;
+button.addEventListener('click', printer.showMessage);
