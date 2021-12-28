@@ -1,16 +1,25 @@
-interface CourseGoal {
-    title: string;
-    description: string;
-    completionDate: Date;
+function Logger(log: string) {
+    return (constructor: Function) => {
+        console.log(log);
+        console.log(constructor);
+    }
 }
 
-function createCourseGoal(title: string, description: string, completionDate: Date): CourseGoal {
-    // Transforms it into a Partial Type where all the properties are optional
-    let courseGoal: Partial<CourseGoal> = {};
-    courseGoal = {title, description, completionDate};
-    return courseGoal as CourseGoal;
+function WithTemplate(template: string, hookId: string) {
+    return (constructor: any) => {
+        const hookElement = document.querySelector(`#${hookId}`);
+        const person = new constructor();
+        if(hookElement) {
+            hookElement.innerHTML = template;
+            hookElement.querySelector('h1')!.textContent = person.name;
+        }
+    }
 }
 
-const names: Readonly<string[]> = ['Max', 'Anna'];
-// names.push('Manu');
-// names.pop();
+@WithTemplate('<h1>My Person Object</h1>', 'app')
+class Person {
+    name = 'Max';
+    constructor() {
+        console.log('Creating person object...');
+    }
+}
