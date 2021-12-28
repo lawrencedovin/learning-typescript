@@ -1,9 +1,24 @@
-const fetchedUserData = {
-    id: 'u1',
-    name: 'Max',
-    //job: { title: 'CEO', description: 'Mountain Dew'}
-};
+function Log(target: any, propertyName: string | Symbol) {
+    console.log('Property decorator!');
+    console.log(target, propertyName);
+}
 
-// Checks if fetchUserData exists before trying to access job.
-// Then checks if fetchUserData.job exists first before trying to access title.
-console.log(fetchedUserData?.job?.title);
+class Product {
+    @Log
+    title: string;
+    private _price: number;
+
+    constructor(title: string, price: number) {
+        this.title = title;
+        this._price = price;
+    }
+
+    set price(value: number) {
+        if(value > 0) this._price = value;
+        else throw new Error('Invalid Price - should be positive number.');
+    }
+
+    getPriceWithTax(tax: number) {
+        return this._price * (1 + tax);
+    }
+}
